@@ -25,4 +25,14 @@ class Header extends Component {
     }
 }
 
+Header.propTypes = {
+    isLoggedIn: React.PropTypes.bool,
+    onLogout: React.PropTypes.func
+};
+
+Header.defaultProps = {
+    isLoggedIn: false,
+    onLogout: () => { console.error('logout function not defined'); }
+};
+
 export default Header
