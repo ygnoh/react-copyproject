@@ -1,3 +1,5 @@
+import morgan from 'morgan';
+import bodyParser from 'body-parser';
 import WebpackDevServer from 'webpack-dev-server';
 import webpack from 'webpack'
 
@@ -9,6 +11,8 @@ import path from 'path';
 const app = express();
 const port = 3000;
 
+app.use(morgan('dev'));
+app.use(bodyParser.json());
 app.use('/', express.static(path.join(__dirname, './../public')));
 
 app.get('/hello', (req, res) => {
