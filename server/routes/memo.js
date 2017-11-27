@@ -42,7 +42,16 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
+    Memo.find()
+        .sort({'_id': -1})
+        .limit(6)
+        .exec((err, memos) => {
+            if (err) {
+                throw err;
+            }
 
+            res.json(memos);
+        });
 });
 
 router.delete('/:id', (req, res) => {
