@@ -41,7 +41,7 @@ router.post('/', (req, res) => {
     });
 });
 
-router.put('/:id', (req, res) => {
+router.get('/', (req, res) => {
     Memo.find()
         .sort({'_id': -1})
         .limit(6)
@@ -104,10 +104,6 @@ router.delete('/:id', (req, res) => {
             res.json({ success: true });
         })
     });
-});
-
-router.get('/', (req, res) => {
-
 });
 
 export default router
