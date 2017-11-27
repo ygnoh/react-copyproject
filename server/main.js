@@ -4,18 +4,20 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import WebpackDevServer from 'webpack-dev-server';
 import webpack from 'webpack'
-
-const devPort = 4000;
-
 import express from 'express';
 import path from 'path';
 
+import api from './routes';
+
 const app = express();
 const port = 3000;
+const devPort = 4000;
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
+
 app.use('/', express.static(path.join(__dirname, './../public')));
+app.use('/api', api);
 
 app.get('/hello', (req, res) => {
     return res.send('Hello');
