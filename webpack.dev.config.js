@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var path = require('path');
 
 module.exports = {
     entry: [
@@ -54,5 +55,9 @@ module.exports = {
                 exclude: /node_modules/,
             }
         ]
+    },
+
+    resolve: {
+        root: path.resolve('./src')
     }
 };
