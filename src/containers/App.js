@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Header } from 'components';
 
-class App extends React.Component {
+class App extends Component {
     render(){
-
         return (
-                <h1>Hello React Skeleton</h1>
+            <Header />
         );
     }
 }
