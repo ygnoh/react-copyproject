@@ -1,5 +1,7 @@
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import session from 'express-session';
 import WebpackDevServer from 'webpack-dev-server';
 import webpack from 'webpack'
 
@@ -18,6 +20,18 @@ app.use('/', express.static(path.join(__dirname, './../public')));
 app.get('/hello', (req, res) => {
     return res.send('Hello');
 });
+
+// mongo db connection
+const db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', () => { console.log('Connected to mongodb server'); });
+mongoose.connect('mongodb://localhost/codelab');
+
+app.use(session({
+    secret: 'CodeLab1$1$234',
+    resave: false,
+    saveUninitialized: true
+}));
 
 app.listen(port, () => {
     console.log('Express is listening on port', port);
