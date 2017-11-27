@@ -18,6 +18,10 @@ app.use(bodyParser.json());
 
 app.use('/', express.static(path.join(__dirname, './../public')));
 app.use('/api', api);
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
 app.get('/hello', (req, res) => {
     return res.send('Hello');
