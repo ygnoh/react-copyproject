@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Header extends Component {
     render() {
@@ -19,19 +20,21 @@ class Header extends Component {
         );
 
         return (
-            <nav>
-                <div className="nav-wrapper blue darken-1">
-                    <a className="brand-logo center">MEMOPAD</a>
-                    <ul>
-                        <li><a><i className="material-icons">search</i></a></li>
-                    </ul>
-                    <div className="right">
+            <div>
+                <nav>
+                    <div className="nav-wrapper blue darken-1">
+                        <Link to="/" className="brand-logo center">MEMOPAD</Link>
                         <ul>
-                            { this.props.isLoggedIn ? logoutButton : loginButton }
+                            <li><a><i className="material-icons">search</i></a></li>
                         </ul>
+                        <div className="right">
+                            <ul>
+                                { this.props.isLoggedIn ? logoutButton : loginButton }
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </nav>
+                </nav>
+            </div>
         );
     }
 }
