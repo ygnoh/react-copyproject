@@ -2,13 +2,52 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
 class Authentication extends Component {
-    render () {
+    render() {
         const loginView = (
-            <div>loginView</div>
+            <div>
+                <div className="card-content">
+                    <div className="row">
+                        {inputBoxes}
+                        <a className="waves-effect waves-light btn">SUBMIT</a>
+                    </div>
+                </div>
+
+                <div className="footer">
+                    <div className="card-content">
+                        <div className="right">
+                            New Here? <Link to="/register">Create an account</Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
         );
 
         const registerView = (
-            <div>registerView</div>
+            <div className="card-content">
+                <div className="row">
+                    {inputBoxes}
+                    <a className="waves-effect waves-light btn">CREATE</a>
+                </div>
+            </div>
+        );
+
+        const inputBoxes = (
+            <div>
+                <div className="input-field col s12 username">
+                    <label>Username</label>
+                    <input
+                        name="username"
+                        type="text"
+                        className="validate" />
+                </div>
+                <div className="input-field col s12">
+                    <label>Password</label>
+                    <input
+                        name="password"
+                        type="password"
+                        className="validate" />
+                </div>
+            </div>
         );
 
         return (
