@@ -2,7 +2,46 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
 class Authentication extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: "",
+            password: "",
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(e) {
+        let nextState = {};
+        nextState[e.target.name] = e.target.value;
+        this.setState(nextState);
+    }
+
     render() {
+        const inputBoxes = (
+            <div>
+                <div className="input-field col s12 username">
+                    <label>Username</label>
+                    <input
+                        name="username"
+                        type="text"
+                        className="validate"
+                        onChange={this.handleChange}
+                        value={this.state.username} />
+                </div>
+                <div className="input-field col s12">
+                    <label>Password</label>
+                    <input
+                        name="password"
+                        type="password"
+                        className="validate"
+                        onChange={this.handleChange}
+                        value={this.state.password} />
+                </div>
+            </div>
+        );
+
         const loginView = (
             <div>
                 <div className="card-content">
@@ -27,25 +66,6 @@ class Authentication extends Component {
                 <div className="row">
                     {inputBoxes}
                     <a className="waves-effect waves-light btn">CREATE</a>
-                </div>
-            </div>
-        );
-
-        const inputBoxes = (
-            <div>
-                <div className="input-field col s12 username">
-                    <label>Username</label>
-                    <input
-                        name="username"
-                        type="text"
-                        className="validate" />
-                </div>
-                <div className="input-field col s12">
-                    <label>Password</label>
-                    <input
-                        name="password"
-                        type="password"
-                        className="validate" />
                 </div>
             </div>
         );
