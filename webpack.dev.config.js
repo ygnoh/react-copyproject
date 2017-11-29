@@ -64,5 +64,7 @@ module.exports = {
 
     resolve: {
         root: path.resolve('./src')
-    }
+    },
+
+    devtool: 'source-map'
 };
