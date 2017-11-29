@@ -5,7 +5,7 @@ class Register extends Component {
     render () {
         return (
             <div>
-                <Authentication />
+                <Authentication mode={false}/>
             </div>
         )
     }
