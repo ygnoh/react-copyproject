@@ -23,7 +23,7 @@ router.post('/signup', (req, res) => {
 	}
 
 	// check user existance
-	Account.findOne({ username: req.body.username }, (err, exsists) => {
+	Account.findOne({ username: req.body.username }, (err, exists) => {
 		if (err) {
 			throw err;
 		}

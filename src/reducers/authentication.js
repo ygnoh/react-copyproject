@@ -21,7 +21,7 @@ export default function authentication(state, action) {
         state = initialState;
     }
 
-    switch(action.types) {
+    switch(action.type) {
         case types.AUTH_LOGIN:
             return update(state, {
                 login: {
