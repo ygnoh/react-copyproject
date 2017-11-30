@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { Authentication } from 'components';
 import { loginRequest } from 'actions/authentication';
-import history from '../history';
+// import history from '../history';
 
 class Login extends Component {
     constructor(props) {
@@ -22,7 +22,7 @@ class Login extends Component {
                 document.cookie = 'key=' + btoa(JSON.stringify(loginData));
 
                 Materialize.toast('Welcome, ' + id + '!', 2000);
-                history.push('/');
+                // history.push('/');
 
                 return true;
             } else {
