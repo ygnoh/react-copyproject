@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Write } from 'components';
+import { memoPostRequest } from 'actions/memo';
 
 class Home extends Component {
     render() {
@@ -14,8 +15,17 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        isLoggedIn: state.authentication.status.isLoggedIn
+        isLoggedIn: state.authentication.status.isLoggedIn,
+        postStatus: state.memo.post
     };
 };
 
-export default connect(mapStateToProps)(Home)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        memoPostRequest: (contents) => {
+            return dispatch(memoPostRequest(contents));
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
