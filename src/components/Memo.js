@@ -2,23 +2,40 @@ import React, { Component } from 'react'
 import TimeAgo from 'react-timeago';
 
 class Memo extends Component {
+    componentDidUpdate() {
+        // triggered when logged in
+        $('#dropdown-button-' + this.props.data._id).dropdown({
+            belowOrigin: true // Display dropdown below the button
+        });
+    }
+
+    componentDidMount() {
+        // triggered when refreshed
+        $('#dropdown-button-' + this.props.data._id).dropdown({
+            belowOrigin: true // Display dropdown below the button
+        });
+    }
+
     render() {
         const {data, ownership} = this.props;
+        const dropDownMenu = (
+            <div className="option-button">
+                <a className="dropdown-button"
+                    id={`dropdown-button-${data._id}`}
+                    data-activates={`dropdown-${data._id}`}>
+                    <i className="material-icons icon-button">more_vert</i>
+                </a>
+                <ul id={`dropdown-${data._id}`} className="dropdown-content">
+                    <li><a>Edit</a></li>
+                    <li><a>Remove</a></li>
+                </ul>
+            </div>
+        );
         const memoView = (
             <div className="card">
                 <div className="info">
                     <a className="username">{data.writer}</a> wrote a log * <TimeAgo date={data.date.created}/>
-                    <div className="option-button">
-                        <a className="dropdown-button"
-                            id={`dropdown-button-${data._id}`}
-                            data-activates={`dropdown-${data._id}`}>
-                            <i className="material-icons icon-button">more_vert</i>
-                        </a>
-                        <ul id={`dropdown-${data._id}`} className="dropdown-content">
-                            <li><a>Edit</a></li>
-                            <li><a>Remove</a></li>
-                        </ul>
-                    </div>
+                    {ownership ? dropDownMenu : undefined}
                 </div>
                 <div className="card-content">
                     {data.contents}
