@@ -4,10 +4,9 @@ import { Write } from 'components';
 
 class Home extends Component {
     render() {
-        const write = (<Write />);
         return (
-            <div>
-                {this.props.isLoggedIn ? write : undefined}
+            <div className="wrapper">
+                {this.props.isLoggedIn ? <Write/> : undefined}
             </div>
         );
     }
