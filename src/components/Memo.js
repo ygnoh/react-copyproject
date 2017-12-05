@@ -30,4 +30,24 @@ class Memo extends Component {
     }
 }
 
+Memo.propTypes = {
+    data: React.PropTypes.object,
+    ownership: React.PropTypes.bool
+};
+
+Memo.defaultProps = {
+    data: {
+        _id: 'id1234567890',
+        writer: 'Writer',
+        contents: 'Contents',
+        is_edited: false,
+        data: {
+            edited: new Date(),
+            created: new Date()
+        },
+        starred: []
+    },
+    ownership: true
+};
+
 export default Memo
