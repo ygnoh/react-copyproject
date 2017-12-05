@@ -8,7 +8,8 @@ import {
     AUTH_REGISTER_FAILURE,
     AUTH_GET_STATUS,
     AUTH_GET_STATUS_SUCCESS,
-    AUTH_GET_STATUS_FAILURE
+    AUTH_GET_STATUS_FAILURE,
+    AUTH_LOGOUT
 } from './ActionTypes';
 
 /* THIS USES THUNK */
@@ -108,5 +109,20 @@ export function getStatusSuccess(username) {
 export function getStatusFailure() {
     return {
         type: AUTH_GET_STATUS_FAILURE
+    };
+}
+
+export function logoutRequest() {
+    return (dispatch) => {
+        return axios.post('/api/account/logout')
+                    .then(response => {
+                        dispatch(loggout());
+                    });
+    };
+}
+
+export function logout() {
+    return {
+        type: AUTH_LOGOUT
     };
 }
