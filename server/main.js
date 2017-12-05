@@ -16,21 +16,6 @@ const devPort = 4000;
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 
-app.use('/', express.static(path.join(__dirname, './../public')));
-app.use('/api', api);
-app.use(function(err, req, res, next) {
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-});
-
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './../public/index.html'));
-});
-
-app.get('/hello', (req, res) => {
-    return res.send('Hello');
-});
-
 // mongo db connection
 const db = mongoose.connection;
 db.on('error', console.error);
@@ -42,6 +27,19 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
+app.use('/', express.static(path.join(__dirname, './../public')));
+
+app.use('/api', api);
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, './../public/index.html'));
+});
+
+app.use(function(err, req, res, next) {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
 app.listen(port, () => {
     console.log('Express is listening on port', port);
