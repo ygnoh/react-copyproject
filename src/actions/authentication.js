@@ -116,7 +116,7 @@ export function logoutRequest() {
     return (dispatch) => {
         return axios.post('/api/account/logout')
                     .then(response => {
-                        dispatch(loggout());
+                        dispatch(logout());
                     });
     };
 }
