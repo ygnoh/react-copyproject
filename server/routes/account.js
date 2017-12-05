@@ -65,14 +65,7 @@ router.post('/signin', (req, res) => {
 			throw err;
 		}
 
-		if (!account) {
-			return res.status(401).json({
-				error: 'LOGIN FAILED',
-				code: 1
-			});
-		}
-
-		if (!account.validateHash(req.body.password)) {
+		if (!account || !account.validateHash(req.body.password)) {
 			return res.status(401).json({
 				error: 'LOGIN FAILED',
 				code: 1
@@ -81,6 +74,12 @@ router.post('/signin', (req, res) => {
 
 		// alter session
 		let session = req.session;
+		if (typeof session === 'undefined') {
+			return res.status(401).json({
+				error: 'LOGIN FAILED',
+				code: 1
+			});
+		}
 		session.loginInfo = {
 			_id: account._id,
 			username: account.username
