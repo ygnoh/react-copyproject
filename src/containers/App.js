@@ -13,6 +13,7 @@ class App extends Component {
             }
         }
 
+        // get loginData from cookie
         let loginData = getCookie('key');
 
         if (typeof loginData === 'undefined') {
@@ -21,10 +22,15 @@ class App extends Component {
 
         loginData = JSON.parse(atob(loginData));
 
+        // if not logged in, return
         if (!loginData.isLoggedIn) {
             return;
         }
 
+        /*
+         * page refreshed and has a session in cookie,
+         * check whether this cookie is valid or not
+         */
         this.props.getStatusRequest().then( () => {
             console.log(this.props.status);
 
