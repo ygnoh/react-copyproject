@@ -3,8 +3,6 @@ import { Authentication } from 'components';
 import { connect } from 'react-redux';
 import { registerRequest } from 'actions/authentication';
 
-// import history from '../history';
-
 class Register extends Component {
     constructor(props) {
         super(props);
@@ -15,7 +13,7 @@ class Register extends Component {
         return this.props.registerRequest(id, pw).then( () => {
             if (this.props.status === 'SUCCESS') {
                 Materialize.toast('Success! Please log in.', 2000);
-                // history.push('/login');
+                this.props.history.push('/login');
                 return true;
             } else {
                 const errorMessage = [
