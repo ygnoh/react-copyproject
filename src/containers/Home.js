@@ -24,9 +24,23 @@ class Home extends Component {
             })
         };
 
+        const loadUntilScrollable = () => {
+            // 스크롤이 생기지 않는 경우
+            if ($('body').height() < $(window).height()) {
+                this.loadOldMemo().then(() => {
+                    if (!this.props.isLast) {
+                        // 스크롤이 생길 때까지 재귀 호출
+                        loadUntilScrollable();
+                    }
+                });
+            }
+        };
+
         // component가 마운트되면 메모를 불러온다 (isInitial=true)
         this.props.memoListRequest(true).then(() => {
-            // 그런 후 부터는 5초마다 새 메모를 불러온다
+            // 스크롤이 존재하는지 확인
+            loadUntilScrollable();
+            // 5초 마다 새 메모를 불러온다
             loadMemoLoop();
         });
 
