@@ -6,8 +6,13 @@ import { memoPostRequest, memoListRequest } from 'actions/memo';
 class Home extends Component {
     constructor(props) {
         super(props);
+
         this.handlePost = this.handlePost.bind(this);
         this.loadNewMemo = this.loadNewMemo.bind(this);
+
+        this.state = {
+            loadingState: false
+        };
     }
 
     componentDidMount() {
@@ -22,6 +27,25 @@ class Home extends Component {
         this.props.memoListRequest(true).then(() => {
             // 그런 후 부터는 5초마다 새 메모를 불러온다
             loadMemoLoop();
+        });
+
+        // infinite scroll
+        $(window).scroll(() => {
+            // 페이지 하단이 250 픽셀 보다 적게 남아있을 경우
+            if ($(document).height() - $(window).height() - $(window).scrollTop() < 250) {
+                if (!this.state.loadingState) {
+                    console.log("Load now");
+                    this.setState({
+                        loadingState: true
+                    });
+                }
+            } else {
+                if (this.state.loadingState) {
+                    this.setState({
+                        loadingState: false
+                    });
+                }
+            }
         });
     }
 
