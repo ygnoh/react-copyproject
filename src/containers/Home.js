@@ -13,11 +13,14 @@ class Home extends Component {
     componentDidMount() {
         const loadMemoLoop = () => {
             this.loadNewMemo().then(() => {
+                // recursive하므로 loadMemoLoop을 매 5초간 실행하게 된다
                 this.memoLoaderTimeoutId = setTimeout(loadMemoLoop, 5000);
             })
         };
 
+        // component가 마운트되면 메모를 불러온다 (isInitial=true)
         this.props.memoListRequest(true).then(() => {
+            // 그런 후 부터는 5초마다 새 메모를 불러온다
             loadMemoLoop();
         });
     }
