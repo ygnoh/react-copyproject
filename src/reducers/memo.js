@@ -56,9 +56,27 @@ export default function memo(state, action) {
                         isLast: { $set: action.data.length < 6 }
                     }
                 });
+            } else {
+                if (action.listType === 'new') {
+                    // 새 메모 로드 성공
+                    return update(state, {
+                        list: {
+                            status: { $set: 'SUCCESS' },
+                            // 배열의 앞 부분에 추가(unshift)
+                            data: { $unshift: action.data }
+                        }
+                    });
+                } else {
+                    // 옛 메모 로드 성공
+                    return update(state, {
+                        list: {
+                            status: { $set: 'SUCCESS' },
+                            data: { $push: action.data },
+                            isLast: { $set: action.data.length < 6 }
+                        }
+                    });
+                }
             }
-
-            return state;
         case types.MEMO_LIST_FAILURE:
             return update(state, {
                 list: {

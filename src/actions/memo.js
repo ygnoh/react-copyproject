@@ -54,6 +54,11 @@ export function memoListRequest(isInitial, listType, id, username) {
 
         let url = '/api/memo';
 
+        if (typeof username === 'undefined') {
+            url = isInitial ? url : `${url}/${listType}/${id}`;
+        } else {
+        }
+
         return axios.get(url)
                     .then(response => {
                         dispatch(memoListSuccess(response.data, isInitial, listType));
