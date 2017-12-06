@@ -9,6 +9,7 @@ class Home extends Component {
 
         this.handlePost = this.handlePost.bind(this);
         this.loadNewMemo = this.loadNewMemo.bind(this);
+        this.loadOldMemo = this.loadOldMemo.bind(this);
 
         this.state = {
             loadingState: false
@@ -34,7 +35,7 @@ class Home extends Component {
             // 페이지 하단이 250 픽셀 보다 적게 남아있을 경우
             if ($(document).height() - $(window).height() - $(window).scrollTop() < 250) {
                 if (!this.state.loadingState) {
-                    console.log("Load now");
+                    this.loadOldMemo();
                     this.setState({
                         loadingState: true
                     });
@@ -51,6 +52,8 @@ class Home extends Component {
 
     componentWillUnmount() {
         clearTimeout(this.memoLoaderTimeoutId);
+
+        $(window).unbind();
     }
 
     loadNewMemo() {
@@ -65,6 +68,25 @@ class Home extends Component {
         }
 
         return this.props.memoListRequest(false, 'new', this.props.memoData[0]._id);
+    }
+
+    loadOldMemo() {
+        if (this.props.isLast) {
+            return new Promise((resolve, reject) => {
+                resolve();
+            });
+        }
+
+        const memoData = this.props.memoData;
+        const lastId = memoData[memoData.length - 1]._id;
+
+        // 6개 단위의 메모를 전달 받는다
+        return this.props.memoListRequest(false, 'old', lastId).then(() => {
+            // 6개 미만이면 마지막 페이지
+            if (this.props.isLast) {
+                Materialize.toast('You are reading the last page', 2000);
+            }
+        });
     }
 
     handlePost(contents) {
@@ -117,7 +139,8 @@ const mapStateToProps = (state) => {
         postStatus: state.memo.post,
         currentUser: state.authentication.status.currentUser,
         memoData: state.memo.list.data,
-        listStatus: state.memo.list.status
+        listStatus: state.memo.list.status,
+        isLast: state.memo.list.isLast
     };
 };
 
