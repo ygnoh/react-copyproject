@@ -7,12 +7,37 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.handlePost = this.handlePost.bind(this);
+        this.loadNewMemo = this.loadNewMemo.bind(this);
     }
 
     componentDidMount() {
+        const loadMemoLoop = () => {
+            this.loadNewMemo().then(() => {
+                this.memoLoaderTimeoutId = setTimeout(loadMemoLoop, 5000);
+            })
+        };
+
         this.props.memoListRequest(true).then(() => {
-            console.log(this.props.memoData);
+            loadMemoLoop();
         });
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.memoLoaderTimeoutId);
+    }
+
+    loadNewMemo() {
+        if (this.props.listStatus === 'WAITING') {
+            return new Promise((resolve, reject) => {
+                resolve();
+            });
+        }
+
+        if (this.props.memoData.length === 0) {
+            return this.props.memoListRequest(true);
+        }
+
+        return this.props.memoListRequest(false, 'new', this.props.memoData[0]._id);
     }
 
     handlePost(contents) {
@@ -62,7 +87,8 @@ const mapStateToProps = (state) => {
         isLoggedIn: state.authentication.status.isLoggedIn,
         postStatus: state.memo.post,
         currentUser: state.authentication.status.currentUser,
-        memoData: state.memo.list.data
+        memoData: state.memo.list.data,
+        listStatus: state.memo.list.status
     };
 };
 
