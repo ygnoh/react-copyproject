@@ -2,6 +2,16 @@ import React, { Component } from 'react'
 import TimeAgo from 'react-timeago';
 
 class Memo extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            editMode: false
+        };
+
+        this.toggleEdit = this.toggleEdit.bind(this);
+    }
+
     componentDidUpdate() {
         // triggered when logged in
         $('#dropdown-button-' + this.props.data._id).dropdown({
@@ -16,6 +26,14 @@ class Memo extends Component {
         });
     }
 
+    toggleEdit() {
+        this.setState((prevState) => {
+            return {
+                editMode: !prevState.editMode
+            };
+        });
+    }
+
     render() {
         const {data, ownership} = this.props;
         const dropDownMenu = (
@@ -26,7 +44,7 @@ class Memo extends Component {
                     <i className="material-icons icon-button">more_vert</i>
                 </a>
                 <ul id={`dropdown-${data._id}`} className="dropdown-content">
-                    <li><a>Edit</a></li>
+                    <li><a onClick={this.toggleEdit}>Edit</a></li>
                     <li><a>Remove</a></li>
                 </ul>
             </div>
@@ -46,10 +64,22 @@ class Memo extends Component {
                 </div>
             </div>
         );
+        const editView = (
+            <div className="write">
+                <div className="card">
+                    <div className="card-content">
+                        <textarea className="materialize-textarea"></textarea>
+                    </div>
+                    <div className="card-action">
+                        <a onClick={this.toggleEdit}>OK</a>
+                    </div>
+                </div>
+            </div>
+        );
 
         return (
             <div className="container memo">
-                {memoView}
+                {this.state.editMode ? editView : memoView}
             </div>
         );
     }
