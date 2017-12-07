@@ -29,11 +29,25 @@ class Memo extends Component {
     }
 
     toggleEdit() {
-        this.setState((prevState) => {
-            return {
-                editMode: !prevState.editMode
-            };
-        });
+        if (this.state.editMode) {
+            const id = this.props.data._id;
+            const index = this.props.index;
+            const contents = this.state.value;
+
+            this.props.onEdit(id, index, contents).then(() => {
+                this.setState((prevState) => {
+                    return {
+                        editMode: !prevState.editMode
+                    };
+                });
+            });
+        } else {
+            this.setState((prevState) => {
+                return {
+                    editMode: !prevState.editMode
+                };
+            });
+        }
     }
 
     handleChange(e) {
@@ -44,6 +58,9 @@ class Memo extends Component {
 
     render() {
         const {data, ownership} = this.props;
+        const editedInfo =(
+            <span style={{color: '#AAB5BC'}}> · Edited <TimeAgo date={this.props.data.date.edited} live={true}/></span>
+        );
         const dropDownMenu = (
             <div className="option-button">
                 <a className="dropdown-button"
@@ -61,6 +78,7 @@ class Memo extends Component {
             <div className="card">
                 <div className="info">
                     <a className="username">{data.writer}</a> wrote a log * <TimeAgo date={data.date.created}/>
+                    {data.is_edited ? editedInfo : undefined}
                     {ownership ? dropDownMenu : undefined}
                 </div>
                 <div className="card-content">
@@ -98,7 +116,9 @@ class Memo extends Component {
 
 Memo.propTypes = {
     data: React.PropTypes.object,
-    ownership: React.PropTypes.bool
+    ownership: React.PropTypes.bool,
+    onEdit: React.PropTypes.func,
+    index: React.PropTypes.number
 };
 
 Memo.defaultProps = {
@@ -113,7 +133,11 @@ Memo.defaultProps = {
         },
         starred: []
     },
-    ownership: true
+    ownership: true,
+    onEdit: (id, index, contents) => {
+        console.error('onEdit function not defined');
+    },
+    index: -1
 };
 
 export default Memo
