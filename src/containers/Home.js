@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Write, MemoList } from 'components';
-import { memoPostRequest, memoListRequest } from 'actions/memo';
+import { memoPostRequest, memoListRequest, memoEditRequest } from 'actions/memo';
 
 class Home extends Component {
     constructor(props) {
@@ -154,7 +154,8 @@ const mapStateToProps = (state) => {
         currentUser: state.authentication.status.currentUser,
         memoData: state.memo.list.data,
         listStatus: state.memo.list.status,
-        isLast: state.memo.list.isLast
+        isLast: state.memo.list.isLast,
+        editStatus: state.memo.edit
     };
 };
 
@@ -165,6 +166,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         memoListRequest: (isInitial, listType, id, username) => {
             return dispatch(memoListRequest(isInitial, listType, id, username));
+        },
+        memoEditRequest: (id, index, contents) => {
+            return dispatch(memoEditRequest(id, index, contents));
         }
     };
 };
