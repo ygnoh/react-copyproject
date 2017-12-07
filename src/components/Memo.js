@@ -6,10 +6,12 @@ class Memo extends Component {
         super(props);
 
         this.state = {
-            editMode: false
+            editMode: false,
+            value: props.data.contents
         };
 
         this.toggleEdit = this.toggleEdit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidUpdate() {
@@ -31,6 +33,12 @@ class Memo extends Component {
             return {
                 editMode: !prevState.editMode
             };
+        });
+    }
+
+    handleChange(e) {
+        this.setState({
+            value: e.target.value
         });
     }
 
@@ -68,7 +76,10 @@ class Memo extends Component {
             <div className="write">
                 <div className="card">
                     <div className="card-content">
-                        <textarea className="materialize-textarea"></textarea>
+                        <textarea className="materialize-textarea"
+                            value={this.state.value}
+                            onChange={this.handleChange}
+                        ></textarea>
                     </div>
                     <div className="card-action">
                         <a onClick={this.toggleEdit}>OK</a>
