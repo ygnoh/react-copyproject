@@ -8,6 +8,7 @@ class Home extends Component {
         super(props);
 
         this.handlePost = this.handlePost.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
         this.loadNewMemo = this.loadNewMemo.bind(this);
         this.loadOldMemo = this.loadOldMemo.bind(this);
 
@@ -133,6 +134,35 @@ class Home extends Component {
         });
     }
 
+    handleEdit(id, index, contents) {
+        return this.props.memoEditRequest(id, index, contents).then(() => {
+            if (this.props.editStatus.status === 'SUCCESS') {
+                Materialize.toast('Success!', 2000);
+            } else {
+                const errorMessage = [
+                    'Something broke',
+                    'Please write something',
+                    'You are not logged in',
+                    'That memo does not exist anymore',
+                    'You do not have permission'
+                ];
+
+                const error = this.props.editStatus.error;
+
+                const $toastContent = $('<span style="color: #FFB4BA">' + errorMessage[error - 1] + '</span>');
+                Materialize.toast($toastContent, 2000);
+
+                // if not logged in
+                if (error === 3) {
+                    setTimeout(() => {
+                        location.reload(false)
+                    }, 2000);
+                }
+
+            }
+        });
+    }
+
     render() {
         const write = (
             <Write onPost={this.handlePost} />
@@ -141,7 +171,9 @@ class Home extends Component {
         return (
             <div className="wrapper">
                 {this.props.isLoggedIn ? write : undefined}
-                <MemoList data={this.props.memoData} currentUser={this.props.currentUser}/>
+                <MemoList data={this.props.memoData}
+                    currentUser={this.props.currentUser}
+                    onEdit={this.handleEdit} />
             </div>
         );
     }
