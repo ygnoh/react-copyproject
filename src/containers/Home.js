@@ -14,6 +14,7 @@ class Home extends Component {
 
         this.handlePost = this.handlePost.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
+        this.handleRemove = this.handleRemove.bind(this);
         this.loadNewMemo = this.loadNewMemo.bind(this);
         this.loadOldMemo = this.loadOldMemo.bind(this);
 
@@ -168,6 +169,34 @@ class Home extends Component {
         });
     }
 
+    handleRemove(id, index) {
+        this.props.memoRemoveRequest(id, index).then(() => {
+            if (this.props.removeStatus.status === 'SUCCESS') {
+                setTimeout(() => {
+                    if ($('body').height() < $(window).height()) {
+                        this.loadOldMemo();
+                    }
+                }, 1000);
+            } else {
+                const errorMessage = [
+                    'Something broke',
+                    'You are not logged in',
+                    'That memo does not exist',
+                    'You do not have permission'
+                ];
+
+                const $toastContent = $('<span style="color: #FFB4BA">' + errorMessage[this.props.removeStatus.error - 1] + '</span>');
+                Materialize.toast($toastContent, 2000);
+
+                if (this.props.removeStatus.error === 2) {
+                    setTimeout(()=> {
+                        location.reload(false);
+                    }, 2000);
+                }
+            }
+        })
+    }
+
     render() {
         const write = (
             <Write onPost={this.handlePost} />
@@ -178,7 +207,9 @@ class Home extends Component {
                 {this.props.isLoggedIn ? write : undefined}
                 <MemoList data={this.props.memoData}
                     currentUser={this.props.currentUser}
-                    onEdit={this.handleEdit} />
+                    onEdit={this.handleEdit}
+                    onRemove={this.handleRemove}
+                />
             </div>
         );
     }
