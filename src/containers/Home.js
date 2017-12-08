@@ -5,7 +5,8 @@ import {
     memoPostRequest,
     memoListRequest,
     memoEditRequest,
-    memoRemoveRequest
+    memoRemoveRequest,
+    memoStarRequest
 } from 'actions/memo';
 
 class Home extends Component {
@@ -15,6 +16,7 @@ class Home extends Component {
         this.handlePost = this.handlePost.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
+        this.handleStar = this.handleStar.bind(this);
         this.loadNewMemo = this.loadNewMemo.bind(this);
         this.loadOldMemo = this.loadOldMemo.bind(this);
 
@@ -197,6 +199,27 @@ class Home extends Component {
         })
     }
 
+    handleStar(id, index) {
+        this.props.memoStarRequest(id, index).then(() => {
+            if (this.props.starStatus.status !== 'SUCCESS') {
+                const errorMessage = [
+                    'Something broke',
+                    'You are not logged in',
+                    'That memo does not exist'
+                ];
+
+                const $toastContent = $('<span style="color: #FFB4BA">' + errorMessage[this.props.starStatus.error - 1] + '</span>');
+                Materialize.toast($toastContent, 2000);
+
+                if (this.props.starStatus.error === 2) {
+                    setTimeout(() => {
+                        location.reload(false);
+                    }, 2000);
+                }
+            }
+        });
+    }
+
     render() {
         const write = (
             <Write onPost={this.handlePost} />
@@ -209,6 +232,7 @@ class Home extends Component {
                     currentUser={this.props.currentUser}
                     onEdit={this.handleEdit}
                     onRemove={this.handleRemove}
+                    onStar={this.handleStar}
                 />
             </div>
         );
@@ -224,7 +248,8 @@ const mapStateToProps = (state) => {
         listStatus: state.memo.list.status,
         isLast: state.memo.list.isLast,
         editStatus: state.memo.edit,
-        removeStatus: state.memo.remove
+        removeStatus: state.memo.remove,
+        starStatus: state.memo.star
     };
 };
 
@@ -241,6 +266,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         memoRemoveRequest: (id, index) => {
             return dispatch(memoRemoveRequest(id, index));
+        },
+        memoStarRequest: (id, index) => {
+            return dispatch(memoStarRequest(id, index));
         }
     };
 };
