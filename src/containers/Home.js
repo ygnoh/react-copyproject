@@ -21,7 +21,8 @@ class Home extends Component {
         this.loadOldMemo = this.loadOldMemo.bind(this);
 
         this.state = {
-            loadingState: false
+            loadingState: false,
+            initiallyLoaded: false
         };
     }
 
@@ -51,6 +52,10 @@ class Home extends Component {
             setTimeout(loadUntilScrollable, 1000);
             // 5초 마다 새 메모를 불러온다
             loadMemoLoop();
+
+            this.setState({
+                initiallyLoaded: true
+            });
         });
 
         // infinite scroll
@@ -77,6 +82,10 @@ class Home extends Component {
         clearTimeout(this.memoLoaderTimeoutId);
 
         $(window).unbind();
+
+        this.setState({
+            initiallyLoaded: false
+        });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -247,9 +256,9 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
-                {this.props.memoData.length === 0 ? emptyView : undefined}
+                {this.props.memoData.length === 0 && this.state.initiallyLoaded ? emptyView : undefined}
             </div>
-        )
+        );
 
         return (
             <div className="wrapper">
