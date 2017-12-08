@@ -253,7 +253,7 @@ router.post('/star/:id', (req, res) => {
             });
         }
 
-        // 해당 유저가 메모에 별을 주었는지 확인 
+        // 현재 로그인한 유저가 메모에 별을 주었는지 확인 
         const index = memo.starred.indexOf(req.session.loginInfo.username);
         const hasStarred = index !== -1;
 
