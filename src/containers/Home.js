@@ -231,10 +231,30 @@ class Home extends Component {
         const write = (
             <Write onPost={this.handlePost} />
         );
+        const emptyView = (
+            <div className="container">
+                <div className="empty-page">
+                    <b>{this.props.username}</b> isn't registered or hasn't written any memo
+                </div>
+            </div>
+        );
+        const wallHeader = (
+            <div>
+                <div className="container wall-info">
+                    <div className="card wall-info blue lighten-2 white-text">
+                        <div className="card-content">
+                            {this.props.username}
+                        </div>
+                    </div>
+                </div>
+                {this.props.memoData.length === 0 ? emptyView : undefined}
+            </div>
+        )
 
         return (
             <div className="wrapper">
-                {this.props.isLoggedIn ? write : undefined}
+                {typeof this.props.username !== 'undefined' ? wallHeader : undefined}
+                {this.props.isLoggedIn && typeof this.props.username === 'undefined' ? write : undefined}
                 <MemoList data={this.props.memoData}
                     currentUser={this.props.currentUser}
                     onEdit={this.handleEdit}
