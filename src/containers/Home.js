@@ -46,7 +46,7 @@ class Home extends Component {
         };
 
         // component가 마운트되면 메모를 불러온다 (isInitial=true)
-        this.props.memoListRequest(true).then(() => {
+        this.props.memoListRequest(true, undefined, undefined, this.props.username).then(() => {
             // 스크롤이 존재하는지 확인
             loadUntilScrollable();
             // 5초 마다 새 메모를 불러온다
@@ -87,10 +87,10 @@ class Home extends Component {
         }
 
         if (this.props.memoData.length === 0) {
-            return this.props.memoListRequest(true);
+            return this.props.memoListRequest(true, undefined, undefined, this.props.username);
         }
 
-        return this.props.memoListRequest(false, 'new', this.props.memoData[0]._id);
+        return this.props.memoListRequest(false, 'new', this.props.memoData[0]._id, this.props.username);
     }
 
     loadOldMemo() {
@@ -104,7 +104,7 @@ class Home extends Component {
         const lastId = memoData[memoData.length - 1]._id;
 
         // 6개 단위의 메모를 전달 받는다
-        return this.props.memoListRequest(false, 'old', lastId).then(() => {
+        return this.props.memoListRequest(false, 'old', lastId, this.props.username).then(() => {
             // 6개 미만이면 마지막 페이지
             if (this.props.isLast) {
                 Materialize.toast('You are reading the last page', 2000);
@@ -271,6 +271,14 @@ const mapDispatchToProps = (dispatch) => {
             return dispatch(memoStarRequest(id, index));
         }
     };
+};
+
+Home.PropTypes = {
+    username: React.PropTypes.string
+};
+
+Home.defaultProps = {
+    username: undefined
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
