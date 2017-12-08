@@ -48,7 +48,7 @@ class Home extends Component {
         // component가 마운트되면 메모를 불러온다 (isInitial=true)
         this.props.memoListRequest(true, undefined, undefined, this.props.username).then(() => {
             // 스크롤이 존재하는지 확인
-            loadUntilScrollable();
+            setTimeout(loadUntilScrollable, 1000);
             // 5초 마다 새 메모를 불러온다
             loadMemoLoop();
         });
@@ -77,6 +77,13 @@ class Home extends Component {
         clearTimeout(this.memoLoaderTimeoutId);
 
         $(window).unbind();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.username !== prevProps.username) {
+            this.componentWillUnmount();
+            this.componentDidMount();
+        }
     }
 
     loadNewMemo() {
