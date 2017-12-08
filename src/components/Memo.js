@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import TimeAgo from 'react-timeago';
+import { Link } from 'react-router-dom';
 
 class Memo extends Component {
     constructor(props) {
@@ -107,7 +108,7 @@ class Memo extends Component {
         const memoView = (
             <div className="card">
                 <div className="info">
-                    <a className="username">{data.writer}</a> wrote a log * <TimeAgo date={data.date.created}/>
+                    <Link to={`/wall/${data.writer}`} className="username">{data.writer}</Link> wrote a log * <TimeAgo date={data.date.created}/>
                     {data.is_edited ? editedInfo : undefined}
                     {ownership ? dropDownMenu : undefined}
                 </div>
