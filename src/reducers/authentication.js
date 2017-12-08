@@ -32,7 +32,7 @@ export default function authentication(state, action) {
         case types.AUTH_LOGIN_SUCCESS:
             return update(state, {
                 login: {
-                    status: { $set: 'SUCCESS'}
+                    status: { $set: 'SUCCESS' }
                 },
                 status: {
                     isLoggedIn: { $set: true },

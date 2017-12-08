@@ -168,7 +168,7 @@ export default function memo(state, action) {
             return update(state, {
                 star: {
                     status: { $set: 'FAILURE' },
-                    error: { $set: aciton.error }
+                    error: { $set: action.error }
                 }
             });
         default:
