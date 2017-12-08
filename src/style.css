@@ -157,27 +157,39 @@ a {
 }
 
 /* ANIMATION */
-@-webkit-keyframes memo-enter {
+@-webkit-keyframes memo-leave {
     0% {
+      opacity: 1;
+      max-height: 1080px;
+    }
+    50% {
       opacity: 0;
+       -webkit-transform: translateX(100px);
     }
     100% {
-      opacity: 1;
+        max-height: 0px;
     }
 }
 
-@keyframes memo-enter {
+@keyframes memo-leave {
     0% {
+      opacity: 1;
+      max-height: 1080px;
+    }
+    50% {
       opacity: 0;
+      transform: translateX(100px);
     }
     100% {
-      opacity: 1;
+        max-height: 0px;
     }
 }
 
-.memo-enter {
-    -webkit-animation-duration: 2s;
-    animation-duration: 2s;
-    -webkit-animation-name: memo-enter;
-    animation-name: memo-enter;
+.memo-leave {
+    max-height: 0px;
+    opacity: 0;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-name: memo-leave;
+    animation-name: memo-leave;
 }
