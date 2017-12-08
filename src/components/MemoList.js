@@ -3,6 +3,10 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { Memo } from 'components';
 
 class MemoList extends Component {
+    shouldComponentUpdate(nextProps, nextState) {
+        return JSON.stringify(this.props) !== JSON.stringify(nextProps);
+    }
+
     render() {
         const mapToComponents = data => {
             return data.map((memo, i) => {

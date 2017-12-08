@@ -30,6 +30,20 @@ class Memo extends Component {
         });
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        const current = {
+            props: this.props,
+            state: this.state
+        };
+
+        const next = {
+            props: nextProps,
+            state: nextState
+        };
+
+        return JSON.stringify(current) !== JSON.stringify(next);
+    }
+
     toggleEdit() {
         if (this.state.editMode) {
             const id = this.props.data._id;
