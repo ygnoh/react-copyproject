@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 class Search extends Component {
     constructor(props) {
@@ -39,6 +39,7 @@ class Search extends Component {
 
     handleSearch(keyword) {
         // TO BE IMPLEMENTED
+        this.props.onSearch(keyword);
     }
 
     handleKeyDown(e) {
@@ -55,10 +56,11 @@ class Search extends Component {
             // IMPLEMENT: map data array to array of Link components
             // create Links to '/wall/:username'
             return data.map((user, i) => {
-                return (<Link to={`/wall/${user.username}`}
+                return (<Link to={'/wall/' + user.username}
                             key={i}
-                            onClick={this.handleClose}
-                />);
+                            onClick={this.handleClose}>
+                            {user.username}
+                        </Link>);
             });
         };
 

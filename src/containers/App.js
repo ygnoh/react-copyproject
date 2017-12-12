@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { Header } from 'components';
 import { connect } from 'react-redux';
 import { getStatusRequest, logoutRequest } from 'actions/authentication';
+import { searchRequest } from 'actions/search';
 
 class App extends Component {
     constructor(props) {
         super(props);
+
         this.handleLogout = this.handleLogout.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     componentDidMount() {
@@ -66,6 +69,23 @@ class App extends Component {
         });
     }
 
+    handleSearch(keyword) {
+        this.props.searchRequest(keyword).then(() => {
+            if (this.props.searchStatus === 'SUCCESS') {
+                if (this.props.usernames.length > 0) {
+                    console.log('found');
+                } else {
+                    console.log('fail');
+                }
+            } else {
+                let $toastContent = $('<span style="color: #FFB4BA">CAN\'T FIND THE USER</span>');
+                Materialize.toast($toastContent, 2000);
+
+                return false;
+            }
+        });
+    }
+
     render(){
         const re = /(login|register)/;
         const isAuth = re.test(this.props.location.pathname);
@@ -73,7 +93,9 @@ class App extends Component {
         return (
             <div>
                 {isAuth ? undefined : <Header isLoggedIn={this.props.status.isLoggedIn}
-                                                onLogout={this.handleLogout} />}
+                                                onLogout={this.handleLogout}
+                                                onSearch={this.handleSearch}
+                                                usernames={this.props.usernames} />}
                 { this.props.children }
             </div>
         );
@@ -82,7 +104,9 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        status: state.authentication.status
+        status: state.authentication.status,
+        usernames: state.search.usernames,
+        searchStatus: state.search.status
     };
 };
 
@@ -93,6 +117,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         logoutRequest: () => {
             return dispatch(logoutRequest());
+        },
+        searchRequest: (username) => {
+            return dispatch(searchRequest(username))
         }
     };
 };

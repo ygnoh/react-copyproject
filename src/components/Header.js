@@ -54,7 +54,9 @@ class Header extends Component {
                 </nav>
                 <ReactCSSTransitionGroup transitionName="search" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
                     { /* IMPLEMENT: SHOW SEARCH WHEN SEARCH STATUS IS TRUE */}
-                    {this.state.searchStatus && <Search onClose={this.toggleSearch} />}
+                    {this.state.searchStatus && <Search onClose={this.toggleSearch}
+                                                        onSearch={this.props.onSearch}
+                                                        usernames={this.props.usernames} />}
                 </ReactCSSTransitionGroup>
             </div>
         );

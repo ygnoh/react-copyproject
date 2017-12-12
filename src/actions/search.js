@@ -5,7 +5,7 @@ export function searchRequest(username) {
     return (dispatch) => {
         dispatch(search());
 
-        return axios.get('/search/' + username)
+        return axios.get('api/account/search/' + username)
                     .then(response => {
                         dispatch(searchSuccess(response.data));
                     })

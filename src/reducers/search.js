@@ -1,4 +1,4 @@
-import * as types from 'action/ActionTypes';
+import * as types from 'actions/ActionTypes';
 import update from 'react-addons-update';
 
 const initialState = {
@@ -20,6 +20,7 @@ export default function search(state, action) {
         case types.SEARCH_SUCCESS:
             return update(state, {
                 status: { $set: 'SUCCESS' },
+                usernames: { $set: action.data }
             });
         case types.SEARCH_FAILURE:
             return update(state, {
