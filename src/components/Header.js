@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Search } from 'components';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Header extends Component {
+    constructor(props) {
+        suepr(props);
+
+        /* IMPLEMENT: CREATE A SEARCH STATUS */
+    }
+
+    /* IMPLEMENT: CREATE toggleSearch METHOD THAT TOGGLES THE SEARCH STATE */
+
     render() {
         const loginButton = (
             <li>
@@ -34,6 +44,9 @@ class Header extends Component {
                         </div>
                     </div>
                 </nav>
+                <ReactCSSTransitionGroup transitionName="search" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+                    { /* IMPLEMENT: SHOW SEARCH WHEN SEARCH STATUS IS TRUE */}
+                </ReactCSSTransitionGroup>
             </div>
         );
     }
