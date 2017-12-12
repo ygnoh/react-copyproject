@@ -30,7 +30,6 @@ export function searchSuccess(data) {
 
 export function searchFailure(error) {
     return {
-        type: SEARCH_FAILURE,
-        error
+        type: SEARCH_FAILURE
     };
 }
