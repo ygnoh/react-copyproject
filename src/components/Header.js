@@ -5,12 +5,20 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Header extends Component {
     constructor(props) {
-        suepr(props);
+        super(props);
 
         /* IMPLEMENT: CREATE A SEARCH STATUS */
+        this.state = {
+            searchStatus: false
+        };
+
+        this.toggleSearch = this.toggleSearch.bind(this);
     }
 
     /* IMPLEMENT: CREATE toggleSearch METHOD THAT TOGGLES THE SEARCH STATE */
+    toggleSearch() {
+        this.setState(prevState => ({ searchStatus: !prevState.searchStatus }));
+    }
 
     render() {
         const loginButton = (
@@ -35,7 +43,7 @@ class Header extends Component {
                     <div className="nav-wrapper blue darken-1">
                         <Link to="/" className="brand-logo center">MEMOPAD</Link>
                         <ul>
-                            <li><a><i className="material-icons">search</i></a></li>
+                            <li><a><i className="material-icons" onClick={this.toggleSearch}>search</i></a></li>
                         </ul>
                         <div className="right">
                             <ul>
@@ -46,6 +54,7 @@ class Header extends Component {
                 </nav>
                 <ReactCSSTransitionGroup transitionName="search" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
                     { /* IMPLEMENT: SHOW SEARCH WHEN SEARCH STATUS IS TRUE */}
+                    {this.state.searchStatus && <Search onClose={this.toggleSearch} />}
                 </ReactCSSTransitionGroup>
             </div>
         );

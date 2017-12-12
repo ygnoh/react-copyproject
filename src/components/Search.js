@@ -54,7 +54,13 @@ class Search extends Component {
         const mapDataToLinks = (data) => {
             // IMPLEMENT: map data array to array of Link components
             // create Links to '/wall/:username'
-        }
+            return data.map((user, i) => {
+                return (<Link to={`/wall/${user.username}`}
+                            key={i}
+                            onClick={this.handleClose}
+                />);
+            });
+        };
 
         return (
             <div className="search-screen white-text">
